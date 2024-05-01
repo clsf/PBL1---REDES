@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from Comunication import comunication
+from Communication import communication
 
 app = Flask(__name__)
 
@@ -14,7 +14,7 @@ def testIntegration ():
 def getStateDevice(deviceId):
 
     print(deviceId)
-    resposta = comunication.getActualState(deviceId)
+    resposta = communication.getActualState(deviceId)
     if resposta is None:
         return jsonify({"message":"Erro ao se comunicar com o dispositivo"}), 500
     device ={
@@ -26,14 +26,14 @@ def getStateDevice(deviceId):
 
 @app.route("/devices", methods=["GET"])
 def getDevices():
-    devicesList = list(comunication.devices.keys())
+    devicesList = list(communication.devices.keys())
     return jsonify({"devices":devicesList}), 200
 
 @app.route("/update", methods=["POST"])
 def updateDevice():
     data = request.get_json()
 
-    resposta = comunication.updateState(data.get("deviceName"), data.get("newSpeed"))
+    resposta = communication.updateState(data.get("deviceName"), data.get("newSpeed"))
     if isinstance(resposta, str):
         return jsonify({"message":resposta}), 404
     elif resposta is None:
