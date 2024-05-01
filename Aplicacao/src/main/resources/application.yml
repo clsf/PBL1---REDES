@@ -1,0 +1,15 @@
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false  # Desativar o cache para facilitar o desenvolvimento
+    mode: HTML5   # Modo de compatibilidade com HTML5
+
+
+feign:
+  client:
+    config:
+      broker:
+        url: http://localhost:5000
+        connect-timeout: 2000  # 2 segundos para conexão
+        read-timeout: 5000  # 5 segundos para leitura
