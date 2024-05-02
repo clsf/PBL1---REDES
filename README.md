@@ -17,20 +17,19 @@ No presente projeto demonstra a comunicação entre o dispositivo, que possui al
 ## Instalação
 Para instalar o projeto, siga estas instruções:
 
-1. Clone o repositório para sua máquina local:
-   git@github.com:clsf/PBL1-REDES.git
-2. Para utilizar o dispositivo e o broker através do docker, realizar o seguinte comando:
-   2.1 Para o broker:
-      ```bash
+### 1. Clone o repositório para sua máquina local:
+      git@github.com:clsf/PBL1-REDES.git
+### 2. Para utilizar o dispositivo e o broker através do docker, realizar o seguinte comando:
+#### 2.1 Inicializando o broker:
       docker pull claudiainees/my_images:broker-01
       docker run --network=host -d -p 5433:5433 claudiainees/my_images:broker-01
-   2.2 Para o dispositivo:
-      ```bash
+#### 2.2 Inicializando o dispositivo:
       docker pull claudiainees/my_images:device-01
       docker run --network=host -d -p 5432:5432 claudiainees/my_images:device-01
 
-      Se estiver rodando o broker e o device em máquinas diferentes, precisará informar o IP do broker ao utilizar o comando docker run:
-      docker run --network=host -e BROKER_ADDRESS=IP_DO_BROKER -d -p 5432:5432 claudiainees/my_images:device-01
+##### Se estiver rodando o broker e o device em máquinas diferentes, precisará informar o IP do broker ao utilizar o comando docker run:
+       docker run --network=host -e BROKER_ADDRESS=IP_DO_BROKER -d -p 5432:5432 claudiainees/my_images:device-01
 
-
+### 3. Iniciando a aplicação:
+Para inicializar a aplicação utilize uma IDE de sua preferência, recomendo a IDE IntelliJ IDEA. Com a IDE abra a pasta da  [aplicação](./Aplicacao).
 
