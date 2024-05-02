@@ -35,5 +35,53 @@ Caso esteja rodando o broker e o dispositivo na mesma máquina, não será neces
 Por fim,  inicialize utilizando o arquivo [DemoApplication](./Aplicacao/src/main/java/com/testefront/demo/DemoApplication.java). 
 
 ## Uso
-Para utilizar a rede de comunicação é necessário ter realizado o passo de [Instalação e configuração](#instalação-e-configuração). No terminal da aplicação será exibido opções. 
+Para utilizar a rede de comunicação é necessário ter realizado o passo de [Instalação e configuração](#instalação-e-configuração). No terminal da aplicação será exibida as opções da Figura 1. Ao inicializar a aplicação, não terá dispositivos disponíveis, logo será preciso selecionar a opção Buscar Dispositivos.
+<a name="tela Inicial"></a>
+<div align="center">
+  <img src="/img/telaInicial.png" alt="" width="350">
+   <p>
+      Figura 1: Tela Inicial.
+    </p>
+</div>
 
+Ao selecionar "Buscar Dispositivos" será exibida uma lista de dispositivos disponíveis. Após isso, selecionar o dispositivo de acordo com a numeração, como na Figura 2.
+
+<a name="Selecionando device"></a>
+<div align="center">
+  <img src="/img/selecionandoDevice.png" alt="" width="350">
+   <p>
+      Figura 2: Selecionando o dispositivo.
+    </p>
+</div>
+
+Quando o dispositivo for selecionado, informações sobre ele serão exibidas como na Figura 3. Inicialmente ele estará desligado, mas pode mudar o estado usando a opção "Alterar a velocidade" e passando a velocidade desejada (Figura 4).
+<a name="Device"></a>
+<div align="center">
+  <img src="/img/Device.png" alt="" width="350">
+   <p>
+      Figura 3: Informações do dispositivo.
+    </p>
+</div>
+
+<a name="Alterando velocidade"></a>
+<div align="center">
+  <img src="/img/alterandoVelocidade.png" alt="" width="350">
+   <p>
+      Figura 4: Alterando a velocidade do dispositivo.
+    </p>
+</div>
+
+O consumo do dispositivo é alterado com o tempo, é possível verificar o novo consumo ou o estado mais recente do dispositivo selecionando a opção atualizar.
+<a name="estado atual"></a>
+<div align="center">
+  <img src="/img/estadoAtual.png" alt="" width="350">
+   <p>
+      Figura 5: Estado atual do dispositivo.
+    </p>
+</div>
+
+## Estrutura do Projeto
+O projeto possui a seguinte estrutura:
+- Broker: Código para o broker em Python.
+- Dispositivo: Código para o dispositivo em Python.
+- Aplicação: Código para a aplicação em Java.
