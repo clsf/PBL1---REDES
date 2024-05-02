@@ -4,17 +4,15 @@ Este projeto é uma solução para o problema 1 do PBL de Concorrência e Conect
 
 ## Sumário
 - [Introdução](#introdução)
-- [Instalação](#instalação)
-- [Configuração](#configuração)
+- [Instalação e configuração](#instalação-e-configuração)
 - [Uso](#uso)
 - [Estrutura do Projeto](#estrutura-do-projeto)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
+
 
 ## Introdução
 No presente projeto demonstra a comunicação entre o dispositivo, que possui algumas funcionalidades como modificação de velocidade e consumo (que varia com o tempo), e a aplicação que serve como interface para o usuário. Essa comunicação se dá através do serviço broker. O broker recebe as requisições, tanto do dispositivo, quanto da aplicação, e faz os devidos encaminhamentos das mensagens. 
 
-## Instalação
+## Instalação e configuração
 Para instalar o projeto, siga estas instruções:
 
 ### 1. Clone o repositório para sua máquina local:
@@ -32,4 +30,10 @@ Para instalar o projeto, siga estas instruções:
 
 ### 3. Iniciando a aplicação:
 Para inicializar a aplicação utilize uma IDE de sua preferência, recomendo a IDE IntelliJ IDEA. Com a IDE abra a pasta da  [aplicação](./Aplicacao).
+Caso esteja rodando o broker e o dispositivo na mesma máquina, não será necessário configurações adicionais. Caso a aplicação esteja em uma máquina distinta ao broker, será necessário configurar o IP do broker no [application](./Aplicacao/src/main/resources/application.yml). Substitua url: http://localhost:5000 pela IP do broker: http://IP:5000.
+
+Por fim,  inicialize utilizando o arquivo [DemoApplication](./Aplicacao/src/main/java/com/testefront/demo/DemoApplication.java). 
+
+## Uso
+Para utilizar a rede de comunicação é necessário ter realizado o passo de [Instalação e configuração](#instalação-e-configuração). No terminal da aplicação será exibido opções. 
 
