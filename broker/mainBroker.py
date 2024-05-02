@@ -6,11 +6,11 @@ from CommunicationWithApplication import start_flask_server
 
 
 
-
+ip_address = '0.0.0.0'
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 print("Servidor escutando na porta 5433...")
-server_socket.bind(('127.0.0.1', 5433))
+server_socket.bind((ip_address, 5433))
 
 server_socket.setblocking(False)
 

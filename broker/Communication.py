@@ -40,7 +40,7 @@ class Communication:
         socket_server.close()
 
         socket_server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_server.bind(('127.0.0.1', tcp_port))
+        socket_server.bind(('0.0.0.0', tcp_port))
         socket_server.settimeout(5)
 
         try:
@@ -83,7 +83,7 @@ class Communication:
         socket_server.close()
 
         socket_server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_server.bind(('127.0.0.1', tcp_port))
+        socket_server.bind(('0.0.0.0', tcp_port))
         socket_server.settimeout(5)
         try:
             resposta, address = socket_server.recvfrom(1024)

@@ -7,10 +7,10 @@ class Comunication:
         self.brokerAddress = brokerAddress
 
 
-    def sendFirtsMessage(self, address, port):
+    def sendFirtsMessage(self, address, port, ip_address):
         message = self.addOnBroker()
         socket_server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_server.bind(('127.0.0.1', 5432))
+        socket_server.bind((ip_address, 5432))
     
         socket_server.settimeout(5)
         print(address, port)
