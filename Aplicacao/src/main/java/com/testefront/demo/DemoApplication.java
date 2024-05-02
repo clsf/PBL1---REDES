@@ -3,6 +3,7 @@ package com.testefront.demo;
 import com.testefront.demo.controller.ApplicationController;
 import com.testefront.demo.service.BrokerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,12 +30,18 @@ class CommandLineApp implements CommandLineRunner {
 	@Autowired
 	private BrokerService service;
 
+	@Value("${feign.client.config.broker.url}")
+	private String url;
+
+	@Value("${server.port}")
+	private String port;
 
 
 
 	@Override
 	public void run(String... args) throws Exception {
-
+		System.out.println("O sistema está funcionando na porta: "+port);
+		System.out.println("A url do broker: "+url);
 		System.out.println("#####################################");
 		System.out.println("###    Bem-vindo ao Sistema!    ###");
 		System.out.println("#####################################");

@@ -3,8 +3,8 @@ from Communication import communication
 
 app = Flask(__name__)
 
-def start_flask_server():
-    app.run(host="0.0.0.0", port=5000)
+def start_flask_server(portToApp):
+    app.run(host="0.0.0.0", port=portToApp)
 
 @app.route("/test", methods=["GET"])
 def testIntegration ():

@@ -3,14 +3,21 @@ import errno
 import threading
 from Communication import communication
 from CommunicationWithApplication import start_flask_server  
+import os
 
 
 
 ip_address = '0.0.0.0'
 
+portToDevice = int(os.getenv("PORT_TO_DEVICE"))
+portToApp = int(os.getenv("PORT_TO_APP"))
+
+if not portToDevice: portToDevice = 5433
+if not portToApp: portToApp=5000
+
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-print("Servidor escutando na porta 5433...")
-server_socket.bind((ip_address, 5433))
+print("Servidor escutando na porta {portToApp}...")
+server_socket.bind((ip_address, portToDevice))
 
 server_socket.setblocking(False)
 
@@ -19,7 +26,7 @@ bound_address = server_socket.getsockname()
 print("Socket está bindado a:", bound_address)
 
 
-flask_thread = threading.Thread(target=start_flask_server)
+flask_thread = threading.Thread(target=start_flask_server, args=(portToApp, ))
 flask_thread.daemon = True  
 flask_thread.start()
 

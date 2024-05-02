@@ -15,18 +15,23 @@ ip_address = '0.0.0.0'
 print(ip_address)
 
 brokerAddress = os.getenv("BROKER_ADDRESS")
-brokerPort = 5433
+brokerPort = int(os.getenv("BROKER_PORT"))
+port = int(os.getenv("PORT"))
+
 
 if not brokerAddress:
     brokerAddress ='127.0.0.1'
 
+if not brokerPort: brokerPort=5433
+
+if not port: port = 5432
 
 firtsSend = False 
 
 while (firtsSend == False):
     try:
         #Send the firts message of recognition
-        comunication.sendFirtsMessage(brokerAddress, brokerPort, ip_address)
+        comunication.sendFirtsMessage(brokerAddress, brokerPort, ip_address, port)
         firtsSend = True
     except socket.timeout:
         print("Timeout: não foi possível receber uma resposta do dispositivo.")
@@ -35,7 +40,7 @@ while (firtsSend == False):
 
 #Init socket 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind((ip_address, 5432))
+server_socket.bind((ip_address, port))
 server_socket.listen(1)
 
     
