@@ -23,7 +23,7 @@ Para instalar o projeto, siga estas instruções:
       docker run --network=host -d -p 5433:5433 claudiainees/my_images:broker-03
 Caso queira definir qual será a porta que irá rodar o broker utilize o seguinte comando:
 
-      docker run --network=host -e PORT_TO_DEVICE:5433 -e PORT_TO_APP:5000 claudiainees/my_images:broker-03 
+      docker run --network=host -e PORT_TO_DEVICE=5433 -e PORT_TO_APP=5000 claudiainees/my_images:broker-03 
 Substitua pelas portas que deseja utilizar.
 #### 2.2 Inicializando o dispositivo:
       docker pull claudiainees/my_images:device-02
