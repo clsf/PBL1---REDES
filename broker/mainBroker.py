@@ -8,12 +8,17 @@ import os
 
 
 ip_address = '0.0.0.0'
+try:
+    portToDevice = int(os.getenv("PORT_TO_DEVICE"))
+except Exception:
+    print("Porta para o device não estabelcida, usando default:5433")
+    portToDevice = 5433
 
-portToDevice = int(os.getenv("PORT_TO_DEVICE"))
-portToApp = int(os.getenv("PORT_TO_APP"))
-
-if not portToDevice: portToDevice = 5433
-if not portToApp: portToApp=5000
+try:    
+    portToApp = int(os.getenv("PORT_TO_APP"))
+except Exception:
+    print("Porta para aplicação não estabelecida, usando default: 5000")
+    portToApp=5000
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 print("Servidor escutando na porta {portToApp}...")

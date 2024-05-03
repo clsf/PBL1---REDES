@@ -15,16 +15,22 @@ ip_address = '0.0.0.0'
 print(ip_address)
 
 brokerAddress = os.getenv("BROKER_ADDRESS")
-brokerPort = int(os.getenv("BROKER_PORT"))
-port = int(os.getenv("PORT"))
+try:
+    brokerPort = int(os.getenv("BROKER_PORT"))
+except Exception:
+    print("Porta do broker não estabelecida, usando default: 5433")
+    brokerPort=5433
 
+try:
+    port = int(os.getenv("PORT"))
+except Exception:
+    port = 5432
+    print("Porta do serviço não estabelecida, usando default: 5432")
 
 if not brokerAddress:
     brokerAddress ='127.0.0.1'
 
-if not brokerPort: brokerPort=5433
 
-if not port: port = 5432
 
 firtsSend = False 
 
@@ -34,7 +40,7 @@ while (firtsSend == False):
         comunication.sendFirtsMessage(brokerAddress, brokerPort, ip_address, port)
         firtsSend = True
     except socket.timeout:
-        print("Timeout: não foi possível receber uma resposta do dispositivo.")
+        print("Timeout: não foi possível receber uma resposta do broker.")
         time.sleep(1)
         print("Tentando mais 1 vez")
 
