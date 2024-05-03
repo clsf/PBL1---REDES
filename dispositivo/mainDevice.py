@@ -6,15 +6,20 @@ from Comunication import Comunication
 import threading
 import os
 
-#Init comunication and device
-device = Device("0",0,0,"device1")
-comunication = Comunication(device, "('127.0.0.1', 5433)")
+
+def getInformationByTerminal(device):
+    while True:
+        print("\nInformação atual:" + device.getInformation())
+        newSpeed = input("\nDigite o valor da velocidade para o dispositivo:")
+        device.setSpeed(newSpeed)
+
 
 
 ip_address = '0.0.0.0'
 print(ip_address)
 
 brokerAddress = os.getenv("BROKER_ADDRESS")
+deviceName = os.getenv("DEVICE_NAME")
 try:
     brokerPort = int(os.getenv("BROKER_PORT"))
 except Exception:
@@ -30,6 +35,11 @@ except Exception:
 if not brokerAddress:
     brokerAddress ='127.0.0.1'
 
+if not deviceName: deviceName="device"
+
+#Init comunication and device
+device = Device("0",0,0,deviceName)
+comunication = Comunication(device, "('127.0.0.1', 5433)")
 
 
 firtsSend = False 
@@ -44,6 +54,8 @@ while (firtsSend == False):
         time.sleep(1)
         print("Tentando mais 1 vez")
 
+threadTerminal = threading.Thread(target=getInformationByTerminal, args=(device, ))
+threadTerminal.start()
 #Init socket 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((ip_address, port))

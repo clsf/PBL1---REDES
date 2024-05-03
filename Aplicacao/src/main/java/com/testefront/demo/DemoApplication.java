@@ -55,7 +55,6 @@ class CommandLineApp implements CommandLineRunner {
 				case 1:
 					System.out.println("Buscando dispositivos...");
 					System.out.println(service.getDevices());
-					option = menuDevices();
 					break;
 				case 2:
 					System.out.println("Digite o numero equivalente ao dispositivo: ");
