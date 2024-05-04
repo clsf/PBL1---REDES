@@ -6,7 +6,7 @@ from Comunication import Comunication
 import threading
 import os
 
-
+#Metodo para permitir entradas via terminal
 def getInformationByTerminal(device):
     while True:
         print("\nInformação atual:" + device.getInformation())
@@ -14,7 +14,7 @@ def getInformationByTerminal(device):
         device.setSpeed(newSpeed)
 
 
-
+#Pega as variaveis de ambiente, se não tiver, é configurado as default 
 ip_address = '0.0.0.0'
 print(ip_address)
 
@@ -41,12 +41,12 @@ if not deviceName: deviceName="device"
 device = Device("0",0,0,deviceName)
 comunication = Comunication(device, "('127.0.0.1', 5433)")
 
-
+#Manda a primeira mensagem pro broker, o dispositivo só funciona depois do recebimento de confirmação do broker
 firtsSend = False 
 
 while (firtsSend == False):
     try:
-        #Send the firts message of recognition
+        #Envia a primeira mensagem
         comunication.sendFirtsMessage(brokerAddress, brokerPort, ip_address, port)
         firtsSend = True
     except socket.timeout:
@@ -54,6 +54,7 @@ while (firtsSend == False):
         time.sleep(1)
         print("Tentando mais 1 vez")
 
+#Após receber mensagem de sucesso, inicia a captura de solicitações via terminal
 threadTerminal = threading.Thread(target=getInformationByTerminal, args=(device, ))
 threadTerminal.start()
 #Init socket 
@@ -61,12 +62,13 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((ip_address, port))
 server_socket.listen(1)
 
-    
+#Espera mensagens do broker via UDP    
 while True:
     try:
         conn, client_address = server_socket.accept()
         data = conn.recv(1024)
 
+        #Inicia uma thread para o tratamento da mensagem
         threadReceiveMessage = threading.Thread(target=comunication.receiveMessage, args=(data.decode(), client_address,))
         threadReceiveMessage.start()
         

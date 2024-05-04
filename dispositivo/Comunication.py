@@ -1,12 +1,13 @@
 import socket
 
 class Comunication:
-
+    #Classe para a comunicação com broker
     def __init__(self, device, brokerAddress):
         self.device = device
         self.brokerAddress = brokerAddress
 
 
+    #Manda primeira mensagem para identificação do dispositivo
     def sendFirtsMessage(self, address, port, ip_address, portAp):
         message = self.addOnBroker()
         socket_server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -27,13 +28,15 @@ class Comunication:
                 # Fecha o socket quando a thread terminar
                 socket_server.close()
 
-
+    #Tratamento da mensagem quando é recebida
     def receiveMessage(self, message, address):
         message = message.split(';')
         command = message[0]
 
+        #Valida qual o comando para responder adequadamente
         if command == "get":
             response = self.getActualState(address)
+        #Tenta atualizar, se não conseguir, manda um 400    
         elif command == "update":
             try:                
                 response = self.updateState(address, message[3])
@@ -48,16 +51,16 @@ class Comunication:
 
 
 
-    
+    #Monta mensagem solicitando a adição no broker
     def addOnBroker(self):
         return f"add;{self.device.getId()};{self.brokerAddress};0"
     
-    def removeOnBroker(self):
-        return f"remove;{self.device.getId()};{self.brokerAddress};0"
-    
+
+    #Monta resposta da solicitação de estado atual    
     def getActualState(self, requestAddress):
         return f"200;{self.device.getId()};{requestAddress};{self.device.getInformation()}"
     
+    #Atualiza o estado do dispositivo
     def updateState(self, requestAddress, speed):
         self.device.setSpeed(speed)
         return f"200;{self.device.getId()};{requestAddress};{self.device.getInformation()}"
