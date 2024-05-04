@@ -17,27 +17,23 @@ public class ApplicationController {
     @Autowired
     private BrokerIntegration brokerIntegration;
 
-    @RequestMapping("/trigger-device")
-    public String triggerDevice() {
-        return brokerIntegration.getTest();
+
+    @RequestMapping("/getDevice/{deviceName}")
+    public DeviceResponse getStateDevice(
+            @PathVariable("deviceName") String deviceName
+    ){
+        return brokerIntegration.getState(deviceName).getBody();
     }
 
-//    @RequestMapping("/getDevice/{deviceName}")
-//    public DeviceResponse getStateDevice(
-//            @PathVariable("deviceName") String deviceName
-//    ){
-//        return brokerIntegration.getState(deviceName).getContent();
-//    }
-//
-//    @RequestMapping("/devices")
-//    public DevicesResponse getDevices(){
-//        return brokerIntegration.getDevices().getContent();
-//    }
+    @RequestMapping("/devices")
+    public DevicesResponse getDevices(){
+        return brokerIntegration.getDevices().getBody();
+    }
 
-//    @RequestMapping("/update")
-//    public DeviceResponse updateDevice(
-//            @RequestBody BrokerRequest request
-//            ){
-//        return brokerIntegration.updateState(request).getContent();
-//    }
+    @RequestMapping("/update")
+    public DeviceResponse updateDevice(
+            @RequestBody BrokerRequest request
+            ){
+        return brokerIntegration.updateState(request).getBody();
+    }
 }

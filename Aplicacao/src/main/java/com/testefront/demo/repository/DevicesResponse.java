@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DevicesResponse {
-
+    //CLASSE QUE DEFINE O OBJETO DE RESPOSTA, NO CASO UMA LISTA DE DEVICES
     @JsonProperty("devices")
     List<String> devices;
 }

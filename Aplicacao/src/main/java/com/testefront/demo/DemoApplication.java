@@ -37,7 +37,7 @@ class CommandLineApp implements CommandLineRunner {
 	private String port;
 
 
-
+	//MAIN PRINCIPAL
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("O sistema está funcionando na porta: "+port);
@@ -48,7 +48,7 @@ class CommandLineApp implements CommandLineRunner {
 
 		var cont = true;
 		while(cont){
-
+			//EXIBE O PRIMEIRO MENU E PEGA OPCAO DO USUÁRIO
 			int option = menuDevices();
 
 			switch (option){
@@ -66,7 +66,7 @@ class CommandLineApp implements CommandLineRunner {
 		}
 
 	}
-
+	//MENU QUE EXIBE AS OPÇÕES DOS DISPOSITIVOS
 	public int menuDevices(){
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Dispositivos: ");
@@ -82,6 +82,7 @@ class CommandLineApp implements CommandLineRunner {
 
 		System.out.println("Opção: ");
 		int quant = 0;
+		//O MENU MUDA DE ACORDO SE TEM DISPOSITIVO DISPONIVEL
 		if(service.devices().isEmpty()){
 			System.out.println("1. Buscar dispositivo \n0. Encerrar aplicação");
 			quant = 2;
@@ -90,19 +91,21 @@ class CommandLineApp implements CommandLineRunner {
 			quant = 3;
 		}
 		var valid = false;
-
+		//VERIFICACAO DE OPCAO VÁLIDA
 		while (!valid){
 			try{
 				opcao = scanner.nextInt();
 				if (opcao > quant) throw new Exception();
 				valid = true;
 			}catch (Exception e){
+				scanner.nextLine(); // Limpa o buffer
 				System.out.println("Opção inválida. Tente novamente:");
 			}
 		}
 		return opcao;
 	}
 
+	//PEGA A OPÇÃO DO USUARIO COM RELACAO AO DISPOSITIVO
 	public int menuDevice(){
 		Scanner scanner = new Scanner(System.in);
 		int opcao = 0;
@@ -115,12 +118,14 @@ class CommandLineApp implements CommandLineRunner {
 				if (opcao > service.devices().size()) throw new Exception();
 				valid = true;
 			}catch (Exception e){
+				scanner.nextLine(); // Limpa o buffer
 				System.out.println("Opção inválida. Tente novamente:");
 			}
 		}
 		return opcao;
 	}
 
+	//EXIBE AS AÇÕES QUE PODEM SER FEITAS COM O DISPOSITIVO
 	public void deviceOptions(int device) throws Exception {
 		Scanner scanner = new Scanner(System.in);
 		boolean cont = true;
@@ -140,11 +145,12 @@ class CommandLineApp implements CommandLineRunner {
 					valid = true;
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
+					scanner.nextLine(); // Limpa o buffer
 				}
 			}
 
 			if(opcao == 3) cont = false;
-			else if(opcao == 1) System.out.println(service.getState(device));
+			else if(opcao == 1) System.out.println(service.getState(device)); //PEGA O ESTADO ATUAL DO DISPOSITIVO
 			else {
 				valid = false;
 				while (!valid) {
@@ -154,10 +160,11 @@ class CommandLineApp implements CommandLineRunner {
 						if (opcao >4) throw new Exception("Opção inválida! Tente novamente.");
 						valid = true;
 					} catch (Exception e) {
+						scanner.nextLine(); // Limpa o buffer
 						System.out.println("Opção inválida");
 					}
 				}
-				System.out.println(service.updateState(device, opcao));
+				System.out.println(service.updateState(device, opcao)); //MANDA ATUALIZAÇÃO PRO DISPOSITIVO E EXIBE NA TELA O RESULTADO
 			}
 
 		}

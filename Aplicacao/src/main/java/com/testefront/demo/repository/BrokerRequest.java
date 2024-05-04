@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class BrokerRequest {
-
+    //CLASSE QUE DEFINE OBJETO DE REQUEST, INFORMAÇÕES PERTINENTES AO REQUEST
     private String deviceName;
     private String newSpeed;
 }
