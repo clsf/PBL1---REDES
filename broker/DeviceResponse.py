@@ -1,4 +1,5 @@
 class DeviceResponse:
+    #Classe para definir os atributos que serão enviados para o dispositivo.
     def __init__(self, name, speed, consumption) -> None:
         self.name = name
         self.speed = speed
