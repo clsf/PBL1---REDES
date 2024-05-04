@@ -4,7 +4,7 @@ Este projeto é uma solução para o problema 1 do PBL de Concorrência e Conect
 
 ## Sumário
 - [Introdução](#introdução)
-- [Instalação e configuração](#instalação-e-configuração)
+- [Iniciando a Aplicação](#iniciando-a-aplicação)
 - [Uso](#uso)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 
@@ -12,41 +12,76 @@ Este projeto é uma solução para o problema 1 do PBL de Concorrência e Conect
 ## Introdução
 No presente projeto demonstra a comunicação entre o dispositivo, que possui algumas funcionalidades como modificação de velocidade e consumo (que varia com o tempo), e a aplicação que serve como interface para o usuário. Essa comunicação se dá através do serviço broker. O broker recebe as requisições, tanto do dispositivo, quanto da aplicação, e faz os devidos encaminhamentos das mensagens. 
 
-## Instalação e configuração
-Para instalar o projeto, siga estas instruções:
+## Iniciando a aplicação
+É possível iniciar a aplicação de duas formas, uma delas é através dos arquivos e a outra é utilizando imagens docker:
 
-### 1. Clone o repositório para sua máquina local:
+### 1. Inicializando o projeto através dos arquivos:
+A inicialização através dos arquivos só é recomendada para a utilização do broker, dispositivo e aplicação na mesma máquina.
+#### 1.1 Clone o repositório para sua máquina local:
       git@github.com:clsf/PBL1-REDES.git
-### 2. Para utilizar o dispositivo e o broker através do docker, realizar o seguinte comando:
+      
+#### 1.2 Inicializando o broker:
+Para utilização do broker e do dispositivo, é necessário que tenha o Python3 instalado na sua máquina, navegue até a pasta do [broker](./broker). Após abrir a pasta do broker, abra o terminal dentro da pasta e digite o seguinte comando:
+
+      python3 mainBroker.py
+      
+Após o comando, o broker será inicializado no terminal.
+
+#### 1.3 Inicializando o dispositivo:
+Navegue até a pasta do [dispositivo](./dispositivo), abra o terminal dentro da pasta e digite o seguinte comando:
+
+      python3 mainDevice.py
+      
+Após o comando, o dispositivo será inicializado no terminal.
+
+#### 1.4 Inicializando a aplicação:
+Para inicializar a aplicação utilize uma IDE que execute programas em JAVA de sua preferência, recomendo a IDE IntelliJ IDEA. Com a IDE abra a pasta da  [aplicação](./Aplicacao).
+Caso esteja rodando o broker e o dispositivo na mesma máquina, não será necessário configurações adicionais. 
+
+### 2. Inicializando o projeto através do docker:
 #### 2.1 Inicializando o broker:
+
       docker pull claudiainees/my_images:broker-03
-      docker run --network=host -d -p 5433:5433 claudiainees/my_images:broker-03
-Caso queira definir qual será a porta que irá rodar o broker utilize o seguinte comando:
+      
+Se estiver rodando aplicação, broker e dispositivo na mesma máquina: 
 
-      docker run --network=host -e PORT_TO_DEVICE=5433 -e PORT_TO_APP=5000 claudiainees/my_images:broker-03 
-Substitua pelas portas que deseja utilizar.
+      docker run -it --network=host claudiainees/my_images:broker-03
+      
+Se precisar definir as portas que o broker utilizará, use o seguinte comando:
+
+      docker run -it --network=host -e PORT_TO_DEVICE=PORTA_ESCOLHIDA_DEVICE -e PORT_TO_APP=PORTA_ESCOLHIDA_APP claudiainees/my_images:broker-03
+      
+Substitua PORTA_ESCOLHIDA_DEVICE e PORTA_ESCOLHIDA_APP pelas portas que deseja utilizar.
 #### 2.2 Inicializando o dispositivo:
+
       docker pull claudiainees/my_images:device-02
-      docker run --network=host -d -p 5432:5432 claudiainees/my_images:device-02
+      
+Se estiver rodando broker e dispositivo na mesma máquina:
 
-##### Se estiver rodando o broker e o device em máquinas diferentes, precisará informar o IP do broker ao utilizar o comando docker run:
-       docker run --network=host -e BROKER_ADDRESS=IP_DO_BROKER -d -p 5432:5432 claudiainees/my_images:device-02
-Caso tenha alterado a porta do broker utilize o seguinte comando para inicializar passando o IP e a Porta do broker:
+      docker run -it --network=host claudiainees/my_images:device-02
 
-      docker run --network=host -e BROKER_ADDRESS=IP_DO_BROKER -e BROKER_PORT:SUBSTITUA_PELA_PORTA -d -p 5432:5432 claudiainees/my_images:device-02
-### 3. Iniciando a aplicação:
-Para inicializar a aplicação utilize uma IDE de sua preferência, recomendo a IDE IntelliJ IDEA. Com a IDE abra a pasta da  [aplicação](./Aplicacao).
-Caso esteja rodando o broker e o dispositivo na mesma máquina, não será necessário configurações adicionais. Caso a aplicação esteja em uma máquina distinta ao broker, será necessário configurar o IP do broker no [application](./Aplicacao/src/main/resources/application.yml). Substitua url: http://localhost:5000 pelo IP e porta do broker: http://IP:PORTA.
+Se precisar definir as portas que o dispositivo utilizará, ou se estiver definido uma porta para o broker, ou mesmo rodando o broker e dispositivo em computadores diferentes,utilize o seguinte comando:
 
-Por fim,  inicialize utilizando o arquivo [DemoApplication](./Aplicacao/src/main/java/com/testefront/demo/DemoApplication.java). 
-#### 3.1 Inicializando a aplicação com docker:
-       docker pull claudiainees/my_images:app-image-01
-       docker run -it --network=host claudiainees/my_images:app-image-01
-Caso precise definir a porta do broker, por estar em outra máquina execute o seguinte comando para inicializar:
+      docker run -it --network=host -e BROKER_ADDRESS=IP_DO_BROKER -e BROKER_PORT=PORTA_DO_BROKER -e PORT=PORTA_DISPOSITIVO -e DEVICE_NAME=VENTILADOR claudiainees/my_images:device-02
 
-       docker run -it --network=host -e FEIGN_CLIENT_CONFIG_BROKER_URL=http://IPDOBROKER:PORTADOBROKER claudiainees/my_images:app-image-01
+A variável "BROKER_ADDRESS" precisa receber o IP da máquina que o broker está rodando, "BROKER_PORT" a porta que o broker está funcionando, anteriormente definida como "PORT_TO_DEVICE" na inicialização do broker. A variável "PORT" recebe a porta que o dispositivo utilizará para realizar a comunicação e "DEVICE_NAME" o nome que deseja dar para o dispositivo.
+
+#### 2.3 Inicializando a aplicação:
+
+      docker pull claudiainees/my_images:app-image-01
+
+Se estiver rodando a aplicação na mesma máquina que o broker e não tiver feito alterações da porta dele, utilize o seguinte comando:
+
+      docker run -it --network=host claudiainees/my_images:app-image-01
+
+Caso esteja em máquinas diferentes, e/ou tenha alterado a porta de excecução do broker "PORT_TO_APP", utilize o seguinte comando:
+
+      docker run -it --network=host -e FEIGN_CLIENT_CONFIG_BROKER_URL=http://IPDOBROKER:PORTADOBROKER -e SERVER_PORT=8085 claudiainees/my_images:app-image-01
+
+Altere o "IPDOBROKER" e "PORTADOBROKER" pelo ip e porta do broker. É possível também alterar a porta que a aplicação irá rodar, foi utilizado 8085 na chamada do comando, mas pode alterar para a porta que achar melhor. 
+
 ## Uso
-Para utilizar a rede de comunicação é necessário ter realizado o passo de [Instalação e configuração](#instalação-e-configuração). No terminal da aplicação será exibida as opções da Figura 1. Ao inicializar a aplicação, não terá dispositivos disponíveis, logo será preciso selecionar a opção Buscar Dispositivos.
+Para utilizar a rede de comunicação é necessário ter realizado o passo de [Iniciando a Aplicação](#iniciando-a-aplicação). No terminal da aplicação será exibida as opções da Figura 1. Ao inicializar a aplicação, não terá dispositivos disponíveis, logo será preciso selecionar a opção Buscar Dispositivos.
 <a name="tela Inicial"></a>
 <div align="center">
   <img src="/img/telaInicial.png" alt="" width="350">
